@@ -1,0 +1,74 @@
+@page "/flow-1"
+@inject FlowService1 FlowService
+@rendermode InteractiveServer
+
+<PageTitle>Flow Data</PageTitle>
+
+<h1>Flow Count: @flowCount</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Flow Value <button class="btn btn-secondary" @onclick="SortByValue">Sort</button></th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (FlowData1 flow in flowData)
+        {   
+            <tr>
+                <td>@flow.Name</td>
+                <td>@flow.Value</td>
+                <td><button class="btn btn-danger" @onclick="() => RemoveFlowData(flow)">Remove</button></td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <input type="text" @bind="newFlowName" placeholder="Enter flow name" />
+            </td>
+            <td>
+                <input type="number" @bind="newFlowValue" placeholder="Enter flow value" />
+            </td>
+            <td>
+                <button class="btn btn-primary" @onclick="() => AddFlowData(new FlowData1 { Name = newFlowName, Value = newFlowValue })">Add Flow Data</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+
+    public double flowCount { get; set; } = 0;
+    public string newFlowName { get; set; } = string.Empty;
+    public double newFlowValue { get; set; } = 0;
+    public List<FlowData1> flowData { get; set; } = new List<FlowData1>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        flowData = FlowService.GetFlowData();
+        flowCount = flowData.Count;
+    }
+
+    public void AddFlowData(FlowData1 flowData)
+    {
+        FlowService.AddFlowData(flowData);
+        this.flowData = FlowService.GetFlowData();
+        flowCount = this.flowData.Count;
+        newFlowName = string.Empty;
+        newFlowValue = 0;
+    }
+
+    public void RemoveFlowData(FlowData1 flowData)
+    {
+        FlowService.RemoveFlowData(flowData);
+        this.flowData = FlowService.GetFlowData();
+        flowCount = this.flowData.Count;
+    }
+
+    public void SortByValue()
+    {
+        this.flowData = FlowService.SortByValue();
+    }
+    
+}

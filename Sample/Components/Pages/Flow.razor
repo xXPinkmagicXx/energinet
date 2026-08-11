@@ -1,0 +1,41 @@
+@page "/flow"
+@inject FlowService FlowService
+@inject FlowService1 FlowService1
+
+<PageTitle>Flow Data</PageTitle>
+
+<h1>Flow Count: @flowCount</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Flow Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int idx = 1;
+        }
+        @if(idx < flowCount)
+        {
+            @foreach (var flow in FlowService.GetFlowData())
+            {   
+                <tr>
+                    <td>@flow.Name</td>
+                    <td>@flow.Value</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@code {
+
+    public double flowCount { get; set; } = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        flowCount = FlowService.GetFlowData().Count;
+        await base.OnInitializedAsync();
+    }
+    
+}

@@ -1,6 +1,7 @@
 # Build artifacts
 bin/
 obj/
+obj/Debug/
 
 # User-specific files
 *.user

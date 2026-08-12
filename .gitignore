@@ -1,0 +1,96 @@
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.generated.cs
+*.g.cs
+*.g.i.cs
+*.generated.csproj
+
+# Visual Studio and Rider files
+.vs/
+.vscode/
+*.resharper*
+*.DotSettings.user
+*.sln.cache
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+*.nuget.props
+*.nuget.targets
+
+# ASP.NET files
+appsettings*.json
+requestlogs/*
+
+# IIS Express
+*.vspscc
+
+# Blazor-specific / static web assets
+wwwroot/_framework/
+wwwroot/css/app.*.css
+wwwroot/css/app.*.css.map
+wwwroot/manifest.json
+
+# Logging
+*.log
+
+# Rider
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.pdb
+
+# Publish output
+publish/
+publish/**
+
+# Generated docs and coverage
+*.cache
+*.coverage
+*.coveragexml
+TestResults/
+
+# Local tool manifest
+.nuget/
+
+# Azure Functions
+local.settings.json
+
+# Node artifacts (if using npm/yarn for frontend tooling)
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Resharper
+_ReSharper*
+*.[Rr]e[Ss]harper
+
+# JetBrains Rider
+.idea/
+
+# Others
+*.ide
+*.sdf
+*.dbmdl
+*.bak
+*.backup
+
+# Ensure appsettings for development stays out of source control
+appsettings.Development.json

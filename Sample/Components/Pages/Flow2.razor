@@ -1,5 +1,5 @@
-@page "/flow-1"
-@inject FlowService1 FlowService
+@page "/flow-2"
+@inject FlowService2 FlowService
 @rendermode InteractiveServer
 
 <PageTitle>Flow Data</PageTitle>
@@ -37,33 +37,61 @@
     </tbody>
 </table>
 
+<CounterTest @bind-currentCount="counter"></CounterTest>
+<p>CounterTest currentCount: @counter</p>
+
 @code {
 
-    public double flowCount { get; set; } = 0;
+    public int flowCount { get; set; } = 0;
     public string newFlowName { get; set; } = string.Empty;
     public double newFlowValue { get; set; } = 0;
+
+    public int onInitializedAsyncCount { get; set; } = 0;
+
+    public int onAfterRenderAsyncCount { get; set; } = 0;
+    public int onParametersSetAsyncCount { get; set; } = 0; 
+
+    public int counter { get; set; } = 0;
+
     public List<FlowData1> flowData { get; set; } = new List<FlowData1>();
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Flow1.razor OnInitializedAsync called");
-        flowData = FlowService.GetFlowData();
+        onInitializedAsyncCount++;
+        Console.WriteLine($"Flow2.razor OnInitializedAsync called: {onInitializedAsyncCount} times");
+        flowData = await FlowService.GetFlowDataAsync();
         flowCount = flowData.Count;
     }
 
-    public void AddFlowData(FlowData1 flowData)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        onAfterRenderAsyncCount++;
+        if (firstRender)
+        {
+            Console.WriteLine($"Flow2.razor OnAfterRenderAsync called: {onAfterRenderAsyncCount} times");
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        onParametersSetAsyncCount++;
+        Console.WriteLine($"Flow2.razor OnParametersSetAsync called: {onParametersSetAsyncCount} times");
+
+    }
+
+    public async Task AddFlowData(FlowData1 flowData)
     {
         FlowService.AddFlowData(flowData);
-        this.flowData = FlowService.GetFlowData();
+        this.flowData = await FlowService.GetFlowDataAsync();
         flowCount = this.flowData.Count;
         newFlowName = string.Empty;
         newFlowValue = 0;
     }
 
-    public void RemoveFlowData(FlowData1 flowData)
+    public async Task RemoveFlowData(FlowData1 flowData)
     {
         FlowService.RemoveFlowData(flowData);
-        this.flowData = FlowService.GetFlowData();
+        this.flowData = await FlowService.GetFlowDataAsync();
         flowCount = this.flowData.Count;
     }
 

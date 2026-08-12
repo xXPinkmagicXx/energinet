@@ -9,6 +9,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSingleton<FlowService>();
 builder.Services.AddSingleton<FlowService1>();
+builder.Services.AddSingleton<FlowService2>();
 var app = builder.Build();
 
 app.UseHttpsRedirection();

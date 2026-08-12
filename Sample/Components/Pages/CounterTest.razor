@@ -1,0 +1,41 @@
+﻿<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+
+    public int onInitializedAsyncCount { get; set; } = 0;
+
+    public int onAfterRenderAsyncCount { get; set; } = 0;
+    public int onParametersSetAsyncCount { get; set; } = 0; 
+
+    [Parameter]
+    public int currentCount { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> currentCountChanged { get; set; }
+
+    private async Task IncrementCount()
+    {
+        currentCount++;
+        await currentCountChanged.InvokeAsync(currentCount);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        onAfterRenderAsyncCount++;
+        Console.WriteLine($"CounterTest.razor OnAfterRenderAsync called: currentCount = {onAfterRenderAsyncCount}");
+    }
+    protected override void OnInitialized()
+    {
+        onInitializedAsyncCount++;
+        Console.WriteLine($"CounterTest.razor OnInitializedAsync called: currentCount = {onInitializedAsyncCount}");
+    }
+
+    protected override void OnParametersSet()
+    {
+        onParametersSetAsyncCount++;
+        Console.WriteLine($"CounterTest.razor OnParametersSetAsync called: currentCount = {onParametersSetAsyncCount}");
+    }
+}
